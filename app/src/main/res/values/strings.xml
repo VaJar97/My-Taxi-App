@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MyTaxi</string>
+    <string name="i_m_driver">I am driver</string>
+    <string name="i_m_customer">I am customer</string>
+    <string name="login_for_drivers">Login for drivers</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="log_in">Log In</string>
+    <string name="not_with_us_yet">Not with us yet?</string>
+    <string name="login_for_customer">Login for customers</string>
+    <string name="sign_in_for_driver">Sign in for drivers</string>
+    <string name="sign_in_for_customer">Sign in for customers</string>
+</resources>

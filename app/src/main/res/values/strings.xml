@@ -1,14 +1,18 @@
 <resources>
-    <string name="app_name">MyTaxi</string>
+    <string name="app_name">My Taxi</string>
     <string name="i_m_driver">I am driver</string>
     <string name="i_m_customer">I am customer</string>
     <string name="login_for_drivers">Login for drivers</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_password">Enter your password</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
     <string name="log_in">Log In</string>
     <string name="not_with_us_yet">Not with us yet?</string>
     <string name="login_for_customer">Login for customers</string>
-    <string name="sign_in_for_driver">Sign in for drivers</string>
-    <string name="sign_in_for_customer">Sign in for customers</string>
+    <string name="sign_in_for_driver">Sign up for drivers</string>
+    <string name="sign_in_for_customer">Sign up for customers</string>
+    <string name="title_activity_driver_maps">Map</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="title_activity_customer_maps">Map</string>
 </resources>

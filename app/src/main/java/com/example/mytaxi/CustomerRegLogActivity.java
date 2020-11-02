@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,7 @@ public class CustomerRegLogActivity extends AppCompatActivity {
 
     TextView customerEnter, notAccount;
     EditText customerEmail, customerPassword;
-    Button logInCustomer, signInCustomer;
+    Button logInCustomer, signUpCustomer;
 
     FirebaseAuth mAuth;
     ProgressDialog loading;
@@ -35,10 +36,10 @@ public class CustomerRegLogActivity extends AppCompatActivity {
         customerEmail = (EditText) findViewById(R.id.customerEmail);
         customerPassword = (EditText) findViewById(R.id.customerPassword);
         logInCustomer = (Button) findViewById(R.id.logInCustomer);
-        signInCustomer = (Button) findViewById(R.id.signInCustomer);
+        signUpCustomer = (Button) findViewById(R.id.signUpCustomer);
 
-        signInCustomer.setVisibility(View.INVISIBLE);
-        signInCustomer.setEnabled(false);
+        signUpCustomer.setVisibility(View.INVISIBLE);
+        signUpCustomer.setEnabled(false);
 
         notAccount.setOnClickListener( new View.OnClickListener() {
 
@@ -46,13 +47,13 @@ public class CustomerRegLogActivity extends AppCompatActivity {
             public void onClick(View v) {
                 logInCustomer.setVisibility(View.INVISIBLE);
                 notAccount.setVisibility(View.INVISIBLE);
-                signInCustomer.setVisibility(View.VISIBLE);
-                signInCustomer.setEnabled(true);
-                customerEnter.setText("Sign In for customers");
+                signUpCustomer.setVisibility(View.VISIBLE);
+                signUpCustomer.setEnabled(true);
+                customerEnter.setText("Sign Up for customers");
             }
         });
 
-        signInCustomer.setOnClickListener(new View.OnClickListener() {
+        signUpCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = customerEmail.getText().toString();
@@ -61,20 +62,53 @@ public class CustomerRegLogActivity extends AppCompatActivity {
                 registerCustomer(email, password);
             }
         });
+
+        logInCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = customerEmail.getText().toString();
+                String password = customerPassword.getText().toString();
+
+                loginCustomer(email, password);
+            }
+        });
+    }
+
+    private void loginCustomer(String email, String password) {
+        loading = new ProgressDialog(this);
+        loading.setTitle("Sign in customer");
+        loading.setMessage("Please, wait to complete sign in");
+        loading.show();
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+
+                    Toast.makeText(CustomerRegLogActivity.this, "Sign in was successful", Toast.LENGTH_SHORT).show();
+
+                    Intent customerMapIntent = new Intent(CustomerRegLogActivity.this, CustomerMapsActivity.class);
+                    startActivity(customerMapIntent);
+                } else {
+                    Toast.makeText(CustomerRegLogActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                loading.dismiss();
+            }
+        });
     }
 
     private void registerCustomer(String email, String password) {
 
         loading = new ProgressDialog(this);
-        loading.setTitle("Sign-in customer");
-        loading.setMessage("Please, wait to complete sign-in");
+        loading.setTitle("Sign up customer");
+        loading.setMessage("Please, wait to complete sign up");
         loading.show();
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(CustomerRegLogActivity.this, "Sign-in was successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CustomerRegLogActivity.this, "Sign up was successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(CustomerRegLogActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomerMapsActivity"
+    android:background="@android:color/holo_orange_light">
+
+<fragment
+    android:id="@+id/map"
+    android:layout_marginTop="50dp"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     />
+
+    <Button
+        android:id="@+id/customerSettingsBtn"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        app:backgroundTint="@null"
+        android:background="@android:color/holo_orange_light"
+        android:layout_alignParentStart="true"
+        android:text="@string/settings"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/customerLogoutBtn"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        app:backgroundTint="@null"
+        android:background="@android:color/holo_orange_light"
+        android:text="@string/logout"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/PickUpTaxi"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:backgroundTint="@null"
+        android:background="@android:color/holo_orange_light"
+        android:text="Pick Up Taxi"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+</RelativeLayout>

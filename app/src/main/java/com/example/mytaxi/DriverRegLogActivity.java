@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +22,7 @@ public class DriverRegLogActivity extends AppCompatActivity {
 
     TextView driverEnter, notAccount;
     EditText driverEmail, driverPassword;
-    Button logInDriver, signInDriver;
+    Button logInDriver, signUpDriver;
 
     FirebaseAuth mAuth;
     ProgressDialog loading;
@@ -36,24 +37,24 @@ public class DriverRegLogActivity extends AppCompatActivity {
         driverEmail = (EditText) findViewById(R.id.driverEmail);
         driverPassword = (EditText) findViewById(R.id.driverPassword);
         logInDriver = (Button) findViewById(R.id.logInDriver);
-        signInDriver = (Button) findViewById(R.id.signInDriver);
+        signUpDriver = (Button) findViewById(R.id.signUpDriver);
 
-        signInDriver.setVisibility(View.INVISIBLE);
-        signInDriver.setEnabled(false);
+        signUpDriver.setVisibility(View.INVISIBLE);
+        signUpDriver.setEnabled(false);
 
-        notAccount.setOnClickListener( new View.OnClickListener() {
+        notAccount.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 logInDriver.setVisibility(View.INVISIBLE);
                 notAccount.setVisibility(View.INVISIBLE);
-                signInDriver.setVisibility(View.VISIBLE);
-                signInDriver.setEnabled(true);
-                driverEnter.setText("Sign In for drivers");
+                signUpDriver.setVisibility(View.VISIBLE);
+                signUpDriver.setEnabled(true);
+                driverEnter.setText("Sign up for drivers");
             }
         });
 
-        signInDriver.setOnClickListener(new View.OnClickListener() {
+        signUpDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = driverEmail.getText().toString();
@@ -62,26 +63,61 @@ public class DriverRegLogActivity extends AppCompatActivity {
                 registerDriver(email, password);
             }
         });
+
+        logInDriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = driverEmail.getText().toString();
+                String password = driverPassword.getText().toString();
+
+                loginDriver(email, password);
+            }
+        });
+    }
+
+    private void loginDriver(String email, String password) {
+        loading = new ProgressDialog(this);
+        loading.setTitle("Sign in driver");
+        loading.setMessage("Please, wait to complete sign in");
+        loading.show();
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(DriverRegLogActivity.this, "Sign in was successful", Toast.LENGTH_SHORT).show();
+                    Intent intentMap = new Intent(DriverRegLogActivity.this, DriverMapsActivity.class);
+                    startActivity(intentMap);
+                } else {
+                    Toast.makeText(DriverRegLogActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+                loading.dismiss();
+            }
+        });
     }
 
     private void registerDriver(String email, String password) {
-
         loading = new ProgressDialog(this);
-        loading.setTitle("Sign-in driver");
-        loading.setMessage("Please, wait to complete sign-in");
+        loading.setTitle("Sign up driver");
+        loading.setMessage("Please, wait to complete sign up");
         loading.show();
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(DriverRegLogActivity.this, "Sign-in was successful", Toast.LENGTH_SHORT).show();
-                    loading.dismiss();
+
+                    Toast.makeText(DriverRegLogActivity.this, "Sign up was successful", Toast.LENGTH_SHORT).show();
+
+                    Intent intentMap = new Intent(DriverRegLogActivity.this, DriverMapsActivity.class);
+                    startActivity(intentMap);
                 } else {
                     Toast.makeText(DriverRegLogActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                    loading.dismiss();
                 }
+                loading.dismiss();
             }
         });
     }
+
+
 }

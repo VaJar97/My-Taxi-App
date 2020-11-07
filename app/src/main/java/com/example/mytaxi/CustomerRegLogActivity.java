@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CustomerRegLogActivity extends AppCompatActivity {
 
@@ -23,7 +25,10 @@ public class CustomerRegLogActivity extends AppCompatActivity {
     EditText customerEmail, customerPassword;
     Button logInCustomer, signUpCustomer;
 
-    FirebaseAuth mAuth;
+    private DatabaseReference customersDatabaseRef;
+    private String onlineCustomerId;
+
+    private FirebaseAuth mAuth;
     ProgressDialog loading;
 
     @Override
@@ -85,6 +90,11 @@ public class CustomerRegLogActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
+                    onlineCustomerId = mAuth.getCurrentUser().getUid();
+                    customersDatabaseRef = FirebaseDatabase.getInstance().getReference()
+                            .child("Users").child("Customers").child("Online").child(onlineCustomerId); // note to firebaseDatabase
+                    customersDatabaseRef.setValue(true);
+
                     Toast.makeText(CustomerRegLogActivity.this, "Sign in was successful", Toast.LENGTH_SHORT).show();
 
                     Intent customerMapIntent = new Intent(CustomerRegLogActivity.this, CustomerMapsActivity.class);
@@ -107,12 +117,14 @@ public class CustomerRegLogActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                loading.dismiss();
+
                 if (task.isSuccessful()) {
                     Toast.makeText(CustomerRegLogActivity.this, "Sign up was successful", Toast.LENGTH_SHORT).show();
+                    loginCustomer(email, password);
                 } else {
                     Toast.makeText(CustomerRegLogActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
-                loading.dismiss();
             }
         });
     }

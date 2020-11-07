@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">My Taxi</string>
     <string name="i_m_driver">I am driver</string>
@@ -19,9 +20,4 @@
     <string name="search_drivers">Search drivers</string>
     <string name="driver_found">Driver found</string>
     <string name="distance_to_taxi">\"Distance to taxi\"</string>
-    <string name="your_taxi_is_near">Your taxi is near</string>
-    <string name="change_photo">Change photo</string>
-    <string name="name">Name</string>
-    <string name="phone">Phone</string>
-    <string name="car">Car description</string>
 </resources>

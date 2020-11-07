@@ -17,12 +17,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverRegLogActivity extends AppCompatActivity {
 
     TextView driverEnter, notAccount;
     EditText driverEmail, driverPassword;
     Button logInDriver, signUpDriver;
+
+    private DatabaseReference driversDatabaseRef;
+    private String onlineDriverId;
 
     FirebaseAuth mAuth;
     ProgressDialog loading;
@@ -85,7 +90,14 @@ public class DriverRegLogActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+
+                    onlineDriverId = mAuth.getCurrentUser().getUid();
+                    driversDatabaseRef = FirebaseDatabase.getInstance().getReference()
+                            .child("Users").child("Drivers").child(onlineDriverId); // note to firebaseDatabase
+                    driversDatabaseRef.setValue(true);
+
                     Toast.makeText(DriverRegLogActivity.this, "Sign in was successful", Toast.LENGTH_SHORT).show();
+
                     Intent intentMap = new Intent(DriverRegLogActivity.this, DriverMapsActivity.class);
                     startActivity(intentMap);
                 } else {
@@ -105,16 +117,13 @@ public class DriverRegLogActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                loading.dismiss();
                 if (task.isSuccessful()) {
-
                     Toast.makeText(DriverRegLogActivity.this, "Sign up was successful", Toast.LENGTH_SHORT).show();
-
-                    Intent intentMap = new Intent(DriverRegLogActivity.this, DriverMapsActivity.class);
-                    startActivity(intentMap);
+                    loginDriver(email, password);
                 } else {
                     Toast.makeText(DriverRegLogActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
-                loading.dismiss();
             }
         });
     }

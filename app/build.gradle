@@ -33,13 +33,27 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    // Firebase
     implementation 'com.google.firebase:firebase-auth:20.0.0'
     implementation 'com.google.firebase:firebase-database:19.5.1'
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
     implementation 'com.firebase:geofire-android:3.0.0'
+
+    // Google Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
+
+    // ?? For ToolBar
+    implementation 'androidx.cardview:cardview:1.0.0'
+    // For circle avatar
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    // For crop image
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+    // For save image
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

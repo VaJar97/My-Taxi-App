@@ -92,7 +92,7 @@ public class CustomerRegLogActivity extends AppCompatActivity {
 
                     onlineCustomerId = mAuth.getCurrentUser().getUid();
                     customersDatabaseRef = FirebaseDatabase.getInstance().getReference()
-                            .child("Users").child("Customers").child("Online").child(onlineCustomerId); // note to firebaseDatabase
+                            .child("Users").child("Customers").child(onlineCustomerId); // note to firebaseDatabase
                     customersDatabaseRef.setValue(true);
 
                     Toast.makeText(CustomerRegLogActivity.this, "Sign in was successful", Toast.LENGTH_SHORT).show();

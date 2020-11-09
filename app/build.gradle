@@ -51,7 +51,7 @@ dependencies {
     // For circle avatar
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     // For crop image
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     // For save image
     implementation 'com.squareup.picasso:picasso:2.71828'
 

@@ -86,7 +86,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
             }
         });
 
-        driverLogoutBtn = (Button) findViewById(R.id.driverLogoutBtn);
+        driverLogoutBtn = findViewById(R.id.driverLogoutBtn);
         driverLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

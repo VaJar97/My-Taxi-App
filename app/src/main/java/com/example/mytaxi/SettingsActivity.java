@@ -82,7 +82,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checker = true;
-                CropImage.activity().setAspectRatio(1, 1).start(SettingsActivity.this);
+                CropImage.activity()
+                        .setAspectRatio(1, 1)
+                        .start(SettingsActivity.this);
             }
         });
 
@@ -218,48 +220,52 @@ public class SettingsActivity extends AppCompatActivity {
             final StorageReference FileRef = profileImageStorageRef.child(mAuth.getCurrentUser().getUid() + ".jpg");
             uploadTask = FileRef.putFile(imageUri);
 
-            uploadTask.continueWithTask(new Continuation() {
-                @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return FileRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-
-                        Uri downloadUrl = task.getResult();
-                        imageUrl = downloadUrl.toString();
-
-                        HashMap<String, Object> userMap = new HashMap<>();
-                        userMap.put("Uid", mAuth.getCurrentUser().getUid());
-                        userMap.put("Name", userName.getText().toString());
-                        userMap.put("Phone", userPhone.getText().toString());
-                        userMap.put("Image", imageUrl);
-
-                        if (getType.equals("Drivers")) {
-                            userMap.put("Car", userCar.getText().toString());
+            try {
+                uploadTask.continueWithTask(new Continuation() {
+                    @Override
+                    public Object then(@NonNull Task task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
                         }
+                        return FileRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
 
-                        databaseReference.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
+                            Uri downloadUrl = task.getResult();
+                            imageUrl = downloadUrl.toString();
 
-                        progressDialog.dismiss();
+                            HashMap<String, Object> userMap = new HashMap<>();
+                            userMap.put("Uid", mAuth.getCurrentUser().getUid());
+                            userMap.put("Name", userName.getText().toString());
+                            userMap.put("Phone", userPhone.getText().toString());
+                            userMap.put("Image", imageUrl);
 
-                        Toast.makeText(SettingsActivity.this, "Profile successful upload", Toast.LENGTH_SHORT).show();
+                            if (getType.equals("Drivers")) {
+                                userMap.put("Car", userCar.getText().toString());
+                            }
 
-                        if (getType.equals("Drivers")) {
-                            startActivity(new Intent(SettingsActivity.this, DriverMapsActivity.class));
-                        } else {
-                            startActivity(new Intent(SettingsActivity.this, CustomerMapsActivity.class));
+                            databaseReference.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
+
+                            progressDialog.dismiss();
+
+                            Toast.makeText(SettingsActivity.this, "Profile successful upload", Toast.LENGTH_SHORT).show();
+
+                            if (getType.equals("Drivers")) {
+                                startActivity(new Intent(SettingsActivity.this, DriverMapsActivity.class));
+                            } else {
+                                startActivity(new Intent(SettingsActivity.this, CustomerMapsActivity.class));
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         } else {
-            Toast.makeText(this, "Image Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Image Error", Toast.LENGTH_SHORT).show();
         }
     }
 }
